@@ -18,8 +18,8 @@ function uuid(): string {
 }
 
 // 暴露API接口供业务系统调用
-export function exportAPI(apiHandlers: Record<string, Function>, originVertify?: (origin: string) => boolean) {
-	window.addEventListener("message", function (e: any) {
+export function expose(apiHandlers: Record<string, Function>, originVertify?: (origin: string) => boolean) {
+	function listener(e: any) {
 		let data: any = {};
 		try {
 			data = JSON.parse(e.data);
@@ -50,8 +50,11 @@ export function exportAPI(apiHandlers: Record<string, Function>, originVertify?:
 		resp.then((data: any) => {
 			response(id, data);
 		});
-	});
+	}
+	window.addEventListener("message", listener);
+	return () => window.removeEventListener("message", listener);
 }
+
 
 export function excute<T>(frameID: string, actionName: string, ...params: any): Promise<T> {
 	return new Promise((resolve, reject) => {

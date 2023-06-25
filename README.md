@@ -1,8 +1,6 @@
-# export iframe api
-
 ## 说明
 
-iframe 页面通过使用 window.postMessage 通信来导出 api (函数)，从而避开跨域限制，并支持在父页面调用 api，获取返回值。
+iframe 内嵌页面通过使用 window.postMessage 通信来导出一些函数供父级页面调用，从而避开跨域限制，在父页面调用导出的函数可直接获取到函数返回值。
 
 ## 使用方式
 
@@ -17,7 +15,7 @@ npm install ifapi --save
 #### 1. iframe 页面导出 api
 
 ```ts
-import { exportAPI } from 'ifapi';
+import { expose } from 'ifapi';
 
 const handlers = {
     greet: function(name: string) {
@@ -28,19 +26,19 @@ const handlers = {
     }
 }
 
-exportAPI(handlers);
+expose(handlers);
 ```
 
 #### 2. 导出的 api 被调用时校验 origin
 
 ```ts
-import { exportAPI } from 'ifapi';
+import { expose } from 'ifapi';
 
 function vertify(origin: string) {
     return origin == "www.xxxx.com";
 }
 
-exportAPI(handlers, vertify);
+expose(handlers, vertify);
 ```
 
 #### 3. parent 页面调用 api

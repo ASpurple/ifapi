@@ -16,8 +16,8 @@ function uuid() {
     return s.join("");
 }
 // 暴露API接口供业务系统调用
-export function exportAPI(apiHandlers, originVertify) {
-    window.addEventListener("message", function (e) {
+export function expose(apiHandlers, originVertify) {
+    function listener(e) {
         let data = {};
         try {
             data = JSON.parse(e.data);
@@ -48,7 +48,9 @@ export function exportAPI(apiHandlers, originVertify) {
         resp.then((data) => {
             response(id, data);
         });
-    });
+    }
+    window.addEventListener("message", listener);
+    return () => window.removeEventListener("message", listener);
 }
 export function excute(frameID, actionName, ...params) {
     return new Promise((resolve, reject) => {
