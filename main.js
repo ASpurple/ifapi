@@ -40,7 +40,7 @@ export function exportAPI(apiHandlers, legalOrigin) {
             response(id, null, `The function ${data.actionName} does not exist`);
             return;
         }
-        const resp = handler(data.params);
+        const resp = handler(...data.params);
         if (!resp || !resp.then) {
             response(id, resp);
             return;
@@ -50,7 +50,7 @@ export function exportAPI(apiHandlers, legalOrigin) {
         });
     });
 }
-export function excute(frameID, actionName, params) {
+export function excute(frameID, actionName, ...params) {
     return new Promise((resolve, reject) => {
         var _a;
         const frame = window.frames[frameID];
