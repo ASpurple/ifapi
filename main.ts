@@ -42,7 +42,7 @@ export function exportAPI(apiHandlers: Record<string, Function>, legalOrigin?: (
 			response(id, null, `The function ${data.actionName} does not exist`);
 			return;
 		}
-		const resp = handler(data.params);
+		const resp = handler(...data.params);
 		if (!resp || !resp.then) {
 			response(id, resp);
 			return;
@@ -53,7 +53,7 @@ export function exportAPI(apiHandlers: Record<string, Function>, legalOrigin?: (
 	});
 }
 
-export function excute<T>(frameID: string, actionName: string, params?: any): Promise<T> {
+export function excute<T>(frameID: string, actionName: string, ...params: any): Promise<T> {
 	return new Promise((resolve, reject) => {
 		const frame: HTMLIFrameElement = (window.frames as any)[frameID];
 		if (!frame) return;
