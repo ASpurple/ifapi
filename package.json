@@ -1,0 +1,24 @@
+{
+	"name": "ifapi",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "main.js",
+	"scripts": {
+		"dev": "tsc --declaration --target es2016 main.ts",
+		"build": "tsc --declaration true --target es2016 main.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ASpurple/ifapi.git"
+	},
+	"author": {
+		"name": "zyc",
+		"email": "zhouhanlin@neotrident.com"
+	},
+	"description": "iframe api",
+	"keywords": [
+		"iframe",
+		"api"
+	],
+	"license": "MIT"
+}
