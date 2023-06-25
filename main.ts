@@ -18,7 +18,7 @@ function uuid(): string {
 }
 
 // 暴露API接口供业务系统调用
-export function exportAPI(apiHandlers: Record<string, Function>, legalOrigin?: (origin: string) => boolean) {
+export function exportAPI(apiHandlers: Record<string, Function>, originVertify?: (origin: string) => boolean) {
 	window.addEventListener("message", function (e: any) {
 		let data: any = {};
 		try {
@@ -28,7 +28,7 @@ export function exportAPI(apiHandlers: Record<string, Function>, legalOrigin?: (
 			return;
 		}
 		const id = data.id;
-		if (legalOrigin && !legalOrigin(e.origin)) {
+		if (originVertify && !originVertify(e.origin)) {
 			response(id, null, "illegal origin");
 			return;
 		}

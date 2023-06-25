@@ -16,7 +16,7 @@ function uuid() {
     return s.join("");
 }
 // 暴露API接口供业务系统调用
-export function exportAPI(apiHandlers, legalOrigin) {
+export function exportAPI(apiHandlers, originVertify) {
     window.addEventListener("message", function (e) {
         let data = {};
         try {
@@ -27,7 +27,7 @@ export function exportAPI(apiHandlers, legalOrigin) {
             return;
         }
         const id = data.id;
-        if (legalOrigin && !legalOrigin(e.origin)) {
+        if (originVertify && !originVertify(e.origin)) {
             response(id, null, "illegal origin");
             return;
         }
