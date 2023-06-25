@@ -17,6 +17,8 @@ npm install ifapi --save
 #### 1. iframe 页面导出 api
 
 ```ts
+import { exportAPI } from 'ifapi';
+
 const handlers = {
     greet: function(name: string) {
         alert(`hello, ${name}`);
@@ -32,6 +34,8 @@ exportAPI(handlers);
 #### 2. 导出的 api 被调用时校验 origin
 
 ```ts
+import { exportAPI } from 'ifapi';
+
 function vertify(origin: string) {
     return origin == "www.xxxx.com";
 }
@@ -41,8 +45,10 @@ exportAPI(handlers, vertify);
 
 #### 3. parent 页面调用 api
 ```ts
-	// <iframe id="my-frame" src="http://www.test.com/iframe.html"></iframe>
-	excute("my-frame", "sum", 1, 2)
-		.then((data) => console.log(data))
-		.catch((error) => console.error(error));
+import { excute } from 'ifapi';
+
+// <iframe id="my-frame" src="http://www.test.com/iframe.html"></iframe>
+excute("my-frame", "sum", 1, 2)
+	.then((data) => console.log(data))
+	.catch((error) => console.error(error));
 ```
