@@ -12,7 +12,7 @@ npm install ifapi --save
 
 ### 2. 使用
 
-#### 1. iframe 页面导出 api
+#### 1. iframe 内嵌页面导出 api
 
 ```ts
 import { expose } from 'ifapi';
@@ -29,7 +29,20 @@ const handlers = {
 expose(handlers);
 ```
 
-#### 2. 导出的 api 被调用时校验 origin
+#### 2. 父级页面调用 api
+```ts
+import { excute } from 'ifapi';
+
+// <iframe id="my-frame" src="http://www.test.com/iframe.html"></iframe>
+
+excute("my-frame", "greet");
+
+excute("my-frame", "sum", 1, 2)
+	.then((data) => console.log(data))
+	.catch((error) => console.error(error));
+```
+
+#### 3. 导出的 api 被调用时校验 origin
 
 ```ts
 import { expose } from 'ifapi';
@@ -41,12 +54,12 @@ function vertify(origin: string) {
 expose(handlers, vertify);
 ```
 
-#### 3. parent 页面调用 api
-```ts
-import { excute } from 'ifapi';
+#### 4. 取消导出
 
-// <iframe id="my-frame" src="http://www.test.com/iframe.html"></iframe>
-excute("my-frame", "sum", 1, 2)
-	.then((data) => console.log(data))
-	.catch((error) => console.error(error));
+```ts
+import { expose } from 'ifapi';
+
+const unExpose = expose(handlers);
+
+unExpose(); // 取消导出
 ```
