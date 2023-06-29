@@ -59,7 +59,10 @@ export function expose(apiHandlers: Record<string, Function>, originVertify?: (o
 export function excute<T>(frameID: string, actionName: string, ...params: any): Promise<T> {
 	return new Promise((resolve, reject) => {
 		const frame: HTMLIFrameElement = (window.frames as any)[frameID];
-		if (!frame) return;
+		if (!frame) {
+			reject(`iframe not found: ${frameID}`);
+			return;
+		};
 		const id = uuid();
 		function listener(e: any) {
 			window.removeEventListener("message", listener);
