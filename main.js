@@ -53,11 +53,9 @@ export function expose(apiHandlers, originVertify) {
     return () => window.removeEventListener("message", listener);
 }
 export function excute(frameID, actionName, ...params) {
-    console.log(frameID);
     return new Promise((resolve, reject) => {
         var _a;
         const frame = window.frames[frameID];
-        console.log(frame);
         if (!frame) {
             reject(`iframe not found: ${frameID}`);
             return;
@@ -65,7 +63,6 @@ export function excute(frameID, actionName, ...params) {
         ;
         const id = uuid();
         function listener(e) {
-            console.log(e);
             window.removeEventListener("message", listener);
             let resp = {};
             try {
@@ -90,7 +87,6 @@ export function excute(frameID, actionName, ...params) {
         }
         window.addEventListener("message", listener);
         const requestData = { id, actionName, params };
-        console.log(requestData);
-        (_a = frame.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage(JSON.stringify(requestData), "*");
+        (_a = frame.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage(JSON.stringify(requestData), frame.src);
     });
 }
